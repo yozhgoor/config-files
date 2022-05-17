@@ -1,0 +1,18 @@
+add_newline = false
+
+[character]
+format = "[👽](bold yellow) "
+success_symbol = "[👽](bold green) "
+error_symbol = "[👽](bold red) "
+
+[directory]
+home_symbol = {home_symbol}
+
+[package]
+disabled = true
+
+[aws]
+disabled = true
+
+[nodejs]
+disabled = true

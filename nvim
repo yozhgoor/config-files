@@ -1,0 +1,170 @@
+call plug#begin('~/.vim/plugged')
+
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+
+Plug 'preservim/nerdtree' |
+            \ Plug 'Xuyuanp/nerdtree-git-plugin' |
+            \ Plug 'ryanoasis/vim-devicons' |
+            \ Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+
+Plug 'plasticboy/vim-markdown'
+Plug 'cespare/vim-toml'
+
+Plug 'morhetz/gruvbox'
+
+Plug 'neovim/nvim-lspconfig'
+Plug 'hrsh7th/nvim-cmp'
+Plug 'hrsh7th/cmp-nvim-lsp'
+
+Plug 'simrat39/rust-tools.nvim'
+
+call plug#end()
+
+set termguicolors
+syntax enable
+
+set nocompatible
+
+set spell
+set spelllang=en
+
+set showmatch
+set ignorecase
+set hlsearch
+set incsearch
+
+set tabstop=4
+set softtabstop=4
+set expandtab
+
+set smartindent
+set shiftwidth=4
+filetype plugin indent on
+
+set number
+set signcolumn=yes
+set cc=100
+set ruler
+
+set textwidth=100
+
+set encoding=UTF-8
+set autoread
+set updatetime=250
+set lazyredraw
+
+set noswapfile
+
+" leader key
+let g:mapleader= ","
+
+" copy-paste
+set clipboard+=unnamedplus
+
+" remove trailing whitespaces on save
+autocmd BufWritePre * :%s/\s\+$//e
+
+" vim airline
+let g:airline_theme='solarized'
+let g:airline_solarized_bg='dark'
+
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#vuffer_nr_show = 1
+
+" move among buffers
+noremap <leader><Left> :bprev<CR>
+noremap <leader><Right> :bnext<CR>
+
+" nerdtree
+let g:NERDTreeGitStatusUseNerdFonts = 1
+let g:NERDTreeShowHidden = 1
+let g:NERDTreeMinimalUI = 1
+nnoremap <leader>n :NERDTreeToggle<CR>
+
+" Languages features
+
+" Markdown
+
+" no folding
+let g:vim_markdown_folding_disabled = 1
+
+" concealing
+set conceallevel=0
+let g:vim_markdown_conceal_code_blocks = 0
+
+" in code blocks languages
+let g:vim_markdown_fenced_languages = ['rust', 'rs=rust', 'toml']
+
+" syntax extensions
+let g:vim_markdown_math = 1
+let g:vim_markdown_toml_frontmatter = 1
+
+" Rust
+
+" completion
+set completeopt=menuone,noinsert,noselect
+set shortmess+=c
+lua <<EOF
+local cmp = require'cmp'
+cmp.setup({
+    mapping = {
+        ['<C-p>'] = cmp.mapping.select_prev_item(),
+        ['<C-n>'] = cmp.mapping.select_next_item(),
+        ['<S-Tab>'] = cmp.mapping.select_prev_item(),
+        ['<Tab>'] = cmp.mapping.select_next_item(),
+        ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+        ['<C-f>'] = cmp.mapping.scroll_docs(4),
+        ['<C-Space>'] = cmp.mapping.complete(),
+        ['<C-e>'] = cmp.mapping.close(),
+        ['<CR>'] = cmp.mapping.confirm({
+            behavior = cmp.ConfirmBehavior.Insert,
+            select = true,
+        })
+    },
+
+    window = {
+        documentation = cmp.config.disable
+    },
+
+    sources = {
+        { name = 'nvim_lsp' },
+    },
+})
+EOF
+
+" configure LSP
+lua <<EOF
+local nvim_lsp = require'lspconfig'
+
+local opts = {
+    tools = {
+        autoSetHints = true,
+        hover_with_actions = false,
+        inlay_hints = {
+            show_parameter_hints = false,
+            parameter_hints_prefix = "",
+            other_hints_prefix = "",
+        },
+    },
+
+    server = {
+        settings = {
+            ["rust-analyzer"] = {
+                checkOnSave = {
+                    command = "clippy"
+                },
+            }
+        }
+    },
+}
+
+require('rust-tools').setup(opts)
+EOF
+
+" format on write for Rust files
+autocmd BufWritePre *.rs lua vim.lsp.buf.formatting_sync(nil, 200)
+
+" Color scheme
+set bg=dark
+colorscheme gruvbox
