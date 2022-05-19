@@ -6,7 +6,7 @@ set $mod Mod4
 exec "setxkbmap be"
 
 # Set background
-exec "feh --bg-scale {background_image_path}"
+exec "{background_command}"
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
@@ -126,7 +126,7 @@ bindsym $mod+Shift+r restart
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 
 # resize window (you can also use the mouse for that)
-mode "resize" {
+mode "resize" {{
         # These bindings trigger as soon as you enter the resize mode
 
         # Pressing left will shrink the window’s width.
@@ -148,14 +148,14 @@ mode "resize" {
         bindsym Return mode "default"
         bindsym Escape mode "default"
         bindsym $mod+r mode "default"
-}
+}}
 
 bindsym $mod+r mode "resize"
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
-bar {
-	font pango:{bar_fonts} {bar_fonts_size}
-        status_command i3status-rs {i3status_path}
-	position {bar_position}
-}
+bar {{
+	font pango:{fonts} {fonts_size}
+        status_command i3status-rs {bar_path}
+	position "{bar_position}"
+}}

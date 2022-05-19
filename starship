@@ -6,7 +6,7 @@ success_symbol = "[👽](bold green) "
 error_symbol = "[👽](bold red) "
 
 [directory]
-home_symbol = {home_symbol}
+home_symbol = "{home_symbol}"
 
 [package]
 disabled = true

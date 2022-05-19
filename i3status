@@ -11,22 +11,22 @@ on_collapsed_click = "spotify"
 block = "sound"
 step_width = 1
 max_vol = 100
-format = "{volume}"
+format = "{{volume}}"
 driver = "auto"
 
 [[block]]
 block = "net"
-device = "wlp1s0"
-format = "{ssid}"
+device = "{net_device}"
+format = "{{ssid}}"
 
 [[block]]
 block = "cpu"
 interval = 1
-format = "{utilization} {frequency}"
+format = "{{utilization}} {{frequency}}"
 
 [[block]]
 block = "memory"
-format_mem = "{mem_used}/{mem_total}"
+format_mem = "{{mem_used}}/{{mem_total}}"
 display_type = "memory"
 icons = true
 clickable = false
@@ -36,7 +36,7 @@ interval = 5
 block = "disk_space"
 path = "/"
 info_type = "used"
-format = "{icon} {used}/{total}"
+format = "{{icon}} {{used}}/{{total}}"
 unit = "GB"
 warning = 90
 alert = 100
@@ -44,7 +44,7 @@ alert = 100
 [[block]]
 block = "battery"
 interval = 10
-format = " {percentage}"
+format = " {{percentage}}"
 
 [[block]]
 block = "time"
