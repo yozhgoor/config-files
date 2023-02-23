@@ -1,52 +1,41 @@
+[theme]
 theme = "nord-dark"
+[icons]
 icons = "awesome5"
-
-[[block]]
-block = "music"
-player = "spotify"
-buttons = ["play", "next"]
-on_collapsed_click = "spotify"
 
 [[block]]
 block = "sound"
 step_width = 1
 max_vol = 100
-format = "{{volume}}"
-driver = "auto"
+format = "$icon $volume"
 
 [[block]]
 block = "net"
-device = "{net_device}"
-format = "{{ssid}}"
+format = "$icon  $signal_strength"
 
 [[block]]
 block = "cpu"
 interval = 1
-format = "{{utilization}} {{frequency}}"
+format = "$icon $utilization $frequency"
 
 [[block]]
 block = "memory"
-format_mem = "{{mem_used}}/{{mem_total}}"
-display_type = "memory"
-icons = true
-clickable = false
-interval = 5
+format = "$icon $mem_used"
 
 [[block]]
 block = "disk_space"
 path = "/"
 info_type = "used"
-format = "{{icon}} {{used}}/{{total}}"
-unit = "GB"
-warning = 90
-alert = 100
+format = "$icon $used/$total"
+alert_unit = "GB"
+warning = 250.0
+alert = 400.0
+
+[[block]]
+block = "time"
+format = "$icon $timestamp.datetime(f:'%R %d/%m', l:en_US) "
 
 [[block]]
 block = "battery"
 interval = 10
-format = " {{percentage}}"
-
-[[block]]
-block = "time"
-locale = "en_US"
-format = "%R %d/%m"
+format = " $icon  $percentage "
